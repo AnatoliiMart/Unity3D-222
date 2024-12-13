@@ -2,3 +2,4 @@
 
 # IDE0078: Use pattern matching
 csharp_style_prefer_pattern_matching = false
+

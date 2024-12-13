@@ -29,6 +29,16 @@ public class CharacterScript : MonoBehaviour
         }
         if (isMoving)
         {
+            bool isShiftPressed =
+                Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            if (isShiftPressed)
+            {
+                speedFactor = 15f;
+            }
+            else
+            {
+                speedFactor = 5f;
+            }
             Vector2 moveValue = moveAction.ReadValue<Vector2>();
             Vector3 move = Camera.main.transform.forward; // напрям погляду камери
             move.y = 0.0f; // проєктуємо на горизонтальну площину
@@ -44,7 +54,7 @@ public class CharacterScript : MonoBehaviour
             // додаємо до нього управління, яке теж орієнтовано по камері
             move += moveValue.x * Camera.main.transform.right;
             move.y = moveValue.y;
-            move.y -= 30f * Time.deltaTime; // падіння
+            move.y -= 55f * Time.deltaTime; // падіння
             characterController.Move(speedFactor * Time.deltaTime * move);
             this.transform.forward = moveForward; // повертаємо персонажа у напряму руху
             // Debug.Log(this.transform.position.y - Terrain.activeTerrain.SampleHeight(this.transform.position));
@@ -57,6 +67,10 @@ public class CharacterScript : MonoBehaviour
             )
             {
                 animator.SetInteger("MoveState", 2);
+                if (!isShiftPressed)
+                {
+                    speedFactor = 10f;
+                }
             }
             else
             {
