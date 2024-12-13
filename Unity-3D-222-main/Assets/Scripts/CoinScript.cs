@@ -24,12 +24,24 @@ public class CoinScript : MonoBehaviour
         {
             if (colliders[0].bounds.Intersects(other.bounds))
             {
-                animator.SetBool("IsCollected", true);
+                animator.SetInteger("AnimationState", 2);
                 catchSound.Play();
+                ReplaceCoin();
             }
             else
             {
-                Debug.Log("Closer");
+                animator.SetInteger("AnimationState", 1);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.name == "Character")
+        {
+            if (colliders[1].bounds.Intersects(other.bounds))
+            {
+                animator.SetInteger("AnimationState", 0);
             }
         }
     }
@@ -56,7 +68,7 @@ public class CoinScript : MonoBehaviour
         float terrainHeight = Terrain.activeTerrain.SampleHeight(newPosition);
         newPosition.y = terrainHeight + Random.Range(2f, 20f - terrainHeight);
         this.transform.position = newPosition;
-        animator.SetBool("IsCollected", false);
+        animator.SetInteger("AnimationState", 0);
     }
 }
 /* Д.З. Створити анімацію (кліп) пульсації монети
