@@ -3,17 +3,22 @@ using UnityEngine;
 
 public class CoinScript : MonoBehaviour
 {
+    private static int coinScore; 
     private float minOffset = 40f; // мін. відстань від країв "світу"
     private float minDistance = 100f; // мін. відстань від попереднього положення
     private Animator animator;
     private Collider[] colliders;
     private AudioSource catchSound;
+    
+    [SerializeField]
+    private TMPro.TextMeshProUGUI coinScoreText;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         colliders = GetComponents<Collider>();
         catchSound = GetComponent<AudioSource>();
+        coinScore = 0;
     }
 
     void Update() { }
@@ -26,6 +31,8 @@ public class CoinScript : MonoBehaviour
             {
                 animator.SetInteger("AnimationState", 2);
                 catchSound.Play();
+                coinScore++;
+                coinScoreText.text = coinScore.ToString();
                 ReplaceCoin();
             }
             else
